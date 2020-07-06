@@ -157,6 +157,9 @@ void setup()
     pinMode(ESTOP_PIN, INPUT_PULLUP);
   	//attachInterrupt(digitalPinToInterrupt(ESTOP_PIN), ESTOP_interrupt, FALLING);
 
+    ESP.wdtEnable(10000);
+    ESP.wdtFeed();
+
     WiFiConnect();
     configTime(TZ_SEC, DST_SEC, "pool.ntp.org");
     client.setServer(mqtt_server, 1883);
@@ -355,17 +358,19 @@ void WiFiConnect(){
 
 void msOverlay(OLEDDisplay *display, OLEDDisplayUiState* state) {
 
+ /* 부팅시간 count 확인
     //const long interval = 1000;
     unsigned long loadsec = millis()/1000;
     unsigned long loadmin = loadsec/60;
     unsigned long loadhour = loadsec/3600;
     //unsigned long loadday = loadsec/86400;
-
+*/
     display->setTextAlignment(TEXT_ALIGN_RIGHT);
     display->setFont(ArialMT_Plain_10);
-    display->drawString(128, 0, String(loadsec));
-    display->drawString(128, 10, String(loadmin));
-    display->drawString(128, 20, String(loadhour));
+    //display->drawString(128, 0, String(loadsec));
+    //display->drawString(128, 10, String(loadmin));
+    //display->drawString(128, 20, String(loadhour));
+
     //if(alram_flag == true)display->drawString(128, 30, SetTimer(0,0,10));
     display->setTextAlignment(TEXT_ALIGN_LEFT);
     display->drawString(0, 0, DISP_DEBUG);
@@ -490,17 +495,6 @@ void pushover_send(){
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 
